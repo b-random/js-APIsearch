@@ -1,0 +1,5 @@
+// nSearchbar Handler
+
+$(function() {
+  var 
+});
