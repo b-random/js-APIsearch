@@ -77,6 +77,99 @@ function search(){
 	);
 }
 
+// Next Page function
+
+function nextPage() {
+  var token = $('#next-button').data('token'); // Grabs data-token from next-button class in the HTML created by getButtons function
+  var q = $('#next-button').data('query'); // Same for data-query
+
+  // Clear Results
+	$('#results').html('');
+	$('#buttons').html('');
+	
+	// Get Form Input
+	q = $('#query').val();
+	
+	// Run GET Request on API
+	$.get(
+		"https://www.googleapis.com/youtube/v3/search",{
+			part: 'snippet, id',
+			q: q,
+      pageToken: token,
+			type:'video',
+			key: 'AIzaSyAHP9sAAJW66yOvU21pvFPcQtrq4lcnF60'},
+
+      // 'data' is a youtube ORDER parameter that holds the .gets 
+      // data in reverse chron from date of creation
+			function(data){
+				var nextPageToken = data.nextPageToken; // data on next
+				var prevPageToken = data.prevPageToken; // data on prev
+				
+				// Log Data
+				console.log(data);
+				
+				$.each(data.items, function(i, item){
+					// Get Output
+					var output = getOutput(item);
+					
+					// Display Results
+					$('#results').append(output);
+				});
+
+        var buttons = getButtons(prevPageToken, nextPageToken);
+
+        // Display buttons
+        $('#buttons').append(buttons)
+			}
+	);
+}
+   
+// Prev Page function
+function prevPage() {
+  var token = $('#prev-button').data('token'); // Grabs data-token from next-button class in the HTML created by getButtons function
+  var q = $('#prev-button').data('query'); // Same for data-query
+
+  // Clear Results
+	$('#results').html('');
+	$('#buttons').html('');
+	
+	// Get Form Input
+	q = $('#query').val();
+	
+	// Run GET Request on API
+	$.get(
+		"https://www.googleapis.com/youtube/v3/search",{
+			part: 'snippet, id',
+			q: q,
+      pageToken: token,
+			type:'video',
+			key: 'AIzaSyAHP9sAAJW66yOvU21pvFPcQtrq4lcnF60'},
+
+      // 'data' is a youtube ORDER parameter that holds the .gets 
+      // data in reverse chron from date of creation
+			function(data){
+				var nextPageToken = data.nextPageToken; // data on next
+				var prevPageToken = data.prevPageToken; // data on prev
+				
+				// Log Data
+				console.log(data);
+				
+				$.each(data.items, function(i, item){
+					// Get Output
+					var output = getOutput(item);
+					
+					// Display Results
+					$('#results').append(output);
+				});
+
+        var buttons = getButtons(prevPageToken, nextPageToken);
+
+        // Display buttons
+        $('#buttons').append(buttons)
+			}
+	);
+}   
+ 
 // Build getOutput
 
 function getOutput(holdItem) {
@@ -111,13 +204,13 @@ function getButtons(prevPageToken, nextPageToken) {
   if(!prevPageToken) {
     var btnoutput = '<div class="button-container">' +
     '<button id="next-button" class="paging-button" data-token="'+nextPageToken+'" data-query="'+q+'"' +
-    'onclick="nextPage();">Next Page</button></div>';
+    'onclick=nextPage()>Next Page</button></div>';
   } else {
     var btnoutput = '<div class="button-container">' +
     '<button id="prev-button" class="paging-button" data-token="'+prevPageToken+'" data-query="'+q+'"' +
-    'onclick="prevPage();">Prev Page</button>';
+    'onclick=prevPage()>Prev Page</button>' +
     '<button id="next-button" class="paging-button" data-token="'+nextPageToken+'" data-query="'+q+'"' +
-    'onclick="nextPage();">Next Page</button></div>';
+    'onclick=nextPage()>Next Page</button></div>';
   }
 
   return btnoutput;
