@@ -36,6 +36,9 @@ $(function() {
   });
 });
 
+
+// Search Function; GET
+
 function search(){
 	// Clear Results
 	$('#results').html('');
@@ -49,6 +52,7 @@ function search(){
 		"https://www.googleapis.com/youtube/v3/search",{
 			part: 'snippet, id',
 			q: q,
+      safeSearch: 'strict',
 			type:'video',
 			key: 'AIzaSyAHP9sAAJW66yOvU21pvFPcQtrq4lcnF60'},
 
@@ -77,6 +81,9 @@ function search(){
 	);
 }
 
+
+
+// Page Through Functions
 // Next Page function
 
 function nextPage() {
@@ -95,6 +102,7 @@ function nextPage() {
 		"https://www.googleapis.com/youtube/v3/search",{
 			part: 'snippet, id',
 			q: q,
+      safeSearch: 'strict',
       pageToken: token,
 			type:'video',
 			key: 'AIzaSyAHP9sAAJW66yOvU21pvFPcQtrq4lcnF60'},
@@ -141,6 +149,7 @@ function prevPage() {
 		"https://www.googleapis.com/youtube/v3/search",{
 			part: 'snippet, id',
 			q: q,
+      safeSearch: 'strict',
       pageToken: token,
 			type:'video',
 			key: 'AIzaSyAHP9sAAJW66yOvU21pvFPcQtrq4lcnF60'},
@@ -169,11 +178,15 @@ function prevPage() {
 			}
 	);
 }   
+
+
+
+
  
 // Build getOutput
 
 function getOutput(holdItem) {
-  var videoId = holdItem.id;
+  var videoId = holdItem.id.videoId;
   var title = holdItem.snippet.title;
   var description = holdItem.snippet.description;
   var thumb = holdItem.snippet.thumbnails.high.url; // high quality thumbsnails
@@ -183,17 +196,17 @@ function getOutput(holdItem) {
   // Output String
 
   var output = '<li>' +
-  '<div class="list-left">' +
-  '<img src="'+thumb+'">' +
-  '</div>' +
-  '<div class="list-right">' +
-  '<h3>'+title+'</h3>' +
-  '<small>By <span class="cTitle">'+channelTitle+'</span> on '+videoDate+'</small>'
-  '<p>'+description+'</p>' +
-  '</div>' +
-  '</li>' +
-  '<div class="clearfix"></div>' +
-  '';
+	'<div class="list-left">' +
+	'<img src="'+thumb+'">' +
+	'</div>' +
+	'<div class="list-right">' +
+	'<h3><a class="fancybox fancybox.iframe" href="http://www.youtube.com/embed/'+videoId+'">'+title+'</a></h3>' +
+	'<small>By <span class="cTitle">'+channelTitle+'</span> on '+videoDate+'</small>' +
+	'<p>'+description+'</p>' +
+	'</div>' +
+	'</li>' +
+	'<div class="clearfix"></div>' +
+	'';
 
   return output;
 };
