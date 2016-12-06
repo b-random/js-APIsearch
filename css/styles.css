@@ -1,13 +1,28 @@
 * {
   padding: 0;
   margin: 0;
+  overflow: hidden;
 }
 
 body {
   font-family: "segoue", sans-serif;
   color: #666;
-  background: #e1e1e1 url(../img/creampaper.png);
   font-size: 14px;
+  
+}
+
+body::after {
+  content: "";
+  background: url(../img/kidoodle.png);
+  background-size: cover;
+  filter: alpha(opacity=4);
+  opacity: 0.4;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  position: absolute;
+  z-index: -1;
 }
 
 a {
@@ -19,6 +34,9 @@ a {
   width: 740px;
   background: #ddd;
   margin: auto;
+  -webkit-box-shadow: 0px -11px 20px 7px rgba(0,0,0,0.53);
+  -moz-box-shadow: 0px -11px 20px 7px rgba(0,0,0,0.53);
+  box-shadow: 0px -11px 20px 7px rgba(0,0,0,0.53);
 }
 
 .clearfix {
@@ -26,6 +44,7 @@ a {
 }
 
 header {
+  height: 30px;
   padding: 30px 20px;
   background: #e1e1e1;
 }
@@ -48,6 +67,11 @@ footer {
   padding: 20px;
   background: #e1e1e1;
   text-align: center;
+  border-bottom: 1px solid darkgray;
+}
+
+footer p {
+  font-size: 9px;
 }
 
 #search-form {
@@ -127,10 +151,6 @@ footer {
 
 .cTitle {
   color: #dd2826;
-}
-
-.button-container {
-  margin-top: 25px;
 }
 
 .paging-button {
